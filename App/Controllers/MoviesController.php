@@ -38,6 +38,15 @@ Class MoviesController
 		header("Location:./?page=featuredmovie&id=". $movie->id);
 
 	}
+	public function edit(){
+
+	}
+
+	public function delete(){
+		$movieID = isset($_GET['id']) ? $_GET['id'] : null;
+		MoviesModel::destroy($movieID);
+		header("Location:./?page=movies");
+	}
 }
 
 

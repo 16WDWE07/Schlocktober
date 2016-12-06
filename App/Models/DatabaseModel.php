@@ -23,7 +23,7 @@ abstract Class DatabaseModel
 
 	}
 
-	protected function getDatabaseConnection(){
+	protected static function getDatabaseConnection(){
 
 		$dsn = 'mysql:host=localhost;dbname=Schlocktober;charset=utf8';
 		$dbc = new PDO($dsn, 'root', '');
@@ -103,6 +103,14 @@ abstract Class DatabaseModel
 
 		$this->id = $db->lastInsertId();
 
+	}
+
+	public static function destroy($id){
+		$db = self::getDatabaseConnection();
+		$sql = "DELETE FROM " . static::$tablename . " WHERE id=:id";
+		$statement = $db->prepare($sql);
+		$statement->bindValue(":id", $id);
+		$statement->execute();
 	}
 
 }
