@@ -93,6 +93,7 @@ namespace App\Controllers;
     case 'logout':
       unset($_SESSION['user_id']);
       unset($_SESSION['privilege']);
+      unset($_SESSION['user_email']);
       header('Location: index.php');
     break;
 

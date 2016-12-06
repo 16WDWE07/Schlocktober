@@ -45,7 +45,7 @@
 
               <?php    if(isset($_SESSION['user_id'])):   ?>
               
-               <li<?php if($page === "account"):?> class="active" <?php endif; ?>><a href=".\?page=account">Account</a></li><li<?php if($page === "logout"):?> class="active" <?php endif; ?>><a href=".\?page=logout">Logout</a></li>
+               <li<?php if($page === "account"):?> class="active" <?php endif; ?>><a href=".\?page=account"><?= $_SESSION['user_email'];?></a></li><li<?php if($page === "logout"):?> class="active" <?php endif; ?>><a href=".\?page=logout">Logout</a></li>
 
               <?php    else:   ?>
 

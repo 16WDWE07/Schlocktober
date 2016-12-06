@@ -80,7 +80,7 @@ Class UsersModel extends DatabaseModel
 		$db = $this->getDatabaseConnection();
 
 		// Find the password of the user with a matching email
-		$sql = "SELECT id, password, privilege FROM users
+		$sql = "SELECT id, password, privilege, email FROM users
 				WHERE email = :email  ";
 
 		$statement = $db->prepare($sql);
@@ -90,6 +90,7 @@ Class UsersModel extends DatabaseModel
 		$statement->execute();
 
 		$record = $statement->fetch(PDO::FETCH_ASSOC);
+		
 
 		// Did we get an array? (EMAIL FOUND!)
 		if( is_array($record) ) {
@@ -101,6 +102,7 @@ Class UsersModel extends DatabaseModel
 				// Log the user in and redirect to account page
 				$_SESSION['user_id'] = $record['id'];
 				$_SESSION['privilege'] = $record['privilege'];
+				$_SESSION['user_email'] = $record['email'];
 
 				header('Location: index.php?page=account');
 			} else {
