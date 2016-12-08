@@ -6,9 +6,22 @@ use PDO;
 
 abstract Class DatabaseModel
 {
+	public $data = [];
+
 	private $dbc;
 
 	public function __construct($input = null){
+
+		if(static::$columns){
+			foreach (static::$columns as $column) {
+				$this->$column = null;
+			}
+		}
+
+		if(is_numeric($input)){
+			$this->data = $this->find($input);
+		}
+
 		if(is_array($input)){
 			$this->processArray($input);
 		}
@@ -54,9 +67,9 @@ abstract Class DatabaseModel
 
 	}
 
-	public function find(){
+	public function find($id){
 
-		$id = isset($_GET['id']) ? $_GET['id'] : null;
+		// $id = isset($_GET['id']) ? $_GET['id'] : null;
 
 		$db = $this->getDatabaseConnection();
 
@@ -104,6 +117,38 @@ abstract Class DatabaseModel
 		$this->id = $db->lastInsertId();
 
 	}
+	public function update(){
+
+		// get database connection
+		$db = $this->getDatabaseConnection();
+
+		// unset id field
+		$columns = static::$columns;
+		unset($columns[array_search('id', $columns)]);
+
+		// write query UPDATE
+		$sql= "UPDATE " . static::$tablename . " SET ";
+
+		$updatecols = [];
+
+		foreach ($columns as $column) {
+			array_push($updatecols, $column . "=:" .$column);
+		}
+
+		$sql .= implode(',', $updatecols) . " WHERE id=:id";
+
+		// prepare statement
+		$statement = $db->prepare($sql);
+
+		// bind value for place holders
+		foreach (static::$columns as $column) {
+			$statement->bindValue(":".$column, $this->$column);
+		}
+
+		// execute
+		$statement->execute();
+
+	}
 
 	public static function destroy($id){
 		$db = self::getDatabaseConnection();
@@ -113,6 +158,22 @@ abstract Class DatabaseModel
 		$statement->execute();
 	}
 
+	public function __get($name){
+		if(in_array($name, static::$columns)){
+			return $this->data[$name];
+		} else {
+			echo "Property $name is not found in the data variable.";
+		}
+
+	}
+	public function __set($name, $value){
+		if(in_array($name, static::$columns)){
+			return $this->data[$name]= $value;
+		} else {
+			echo "Property $name is not found in the data variable.";
+		}
+	}
+ 
 }
 
 

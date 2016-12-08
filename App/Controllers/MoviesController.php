@@ -19,17 +19,16 @@ Class MoviesController
 
 	public function showFeaturedMovie(){
 		
-		$movie = new MoviesModel();
-		$featuredmovie = $movie->find();
+		$featuredmovie = new MoviesModel($_GET['id']);		
 
 		$view = new FeaturedMovieView(compact('featuredmovie'));
 		$view->render();
 	}
 	public function create(){
 
-		$view = new MovieCreateView();
+		$movie = new MoviesModel();
+		$view = new MovieCreateView(compact('movie'));
 		$view->render();
-
 	}
 	public function store(){
 		
@@ -40,6 +39,17 @@ Class MoviesController
 	}
 	public function edit(){
 
+		$movie = new MoviesModel($_GET['id']);
+
+		$view = new MovieCreateView(compact('movie'));
+		$view->render();
+
+	}
+	public function update(){
+		
+		$movie = new MoviesModel($_POST);
+		$movie->update();
+		header("Location:./?page=featuredmovie&id=".$movie->id);
 	}
 
 	public function delete(){

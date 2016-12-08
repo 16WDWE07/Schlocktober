@@ -8,7 +8,7 @@ Class UsersModel extends DatabaseModel
 {
 	protected static $tablename = 'users';
 	protected static $columns = [
-		'email',
+		'email' ,
 		'password',
 		'first_name',
 		'last_name',
@@ -60,6 +60,7 @@ Class UsersModel extends DatabaseModel
 			// Yay!
 
 			$_SESSION['user_id'] = $db->lastInsertId();
+			$_SESSION['user_email']= $_POST['email'];
 			$_SESSION['privilege'] = 'user';
 
 			header('Location: index.php?page=account');

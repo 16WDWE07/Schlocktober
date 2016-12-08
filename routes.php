@@ -51,6 +51,12 @@ namespace App\Controllers;
       $controller->edit();
       break;
 
+    case 'movie.update':
+
+      $controller = new MoviesController();
+      $controller->update();
+      break;
+
     case 'movie.delete':
 
       $controller = new MoviesController();
