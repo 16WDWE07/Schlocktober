@@ -5,6 +5,7 @@ use App\Views\MoviesView;
 use App\Models\MoviesModel;
 use App\Views\FeaturedMovieView;
 use App\Views\MovieCreateView;
+use App\Models\CommentsModel;
 
 Class MoviesController
 {
@@ -19,9 +20,12 @@ Class MoviesController
 
 	public function showFeaturedMovie(){
 		
-		$featuredmovie = new MoviesModel($_GET['id']);		
+		$featuredmovie = new MoviesModel($_GET['id']);	
 
-		$view = new FeaturedMovieView(compact('featuredmovie'));
+		$comments = new CommentsModel();
+		$allComments = $comments->getAllComments($_GET['id']);	
+
+		$view = new FeaturedMovieView(compact('featuredmovie', 'allComments'));
 		$view->render();
 	}
 	public function create(){
@@ -36,6 +40,14 @@ Class MoviesController
 		$movie->save();	
 		header("Location:./?page=featuredmovie&id=". $movie->id);
 
+	}
+	public function storeComments(){
+		$input = $_POST;
+		$input['user_id'] = $_SESSION['user_id'];
+
+		$comment = new CommentsModel($input);
+		$comment->save();
+		header("Location:./?page=featuredmovie&id=".$comment->movie_id);
 	}
 	public function edit(){
 

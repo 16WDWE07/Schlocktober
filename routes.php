@@ -68,6 +68,12 @@ namespace App\Controllers;
       $controller = new MoviesController();
       $controller->store();
       break;
+
+    case 'comment.create':
+
+      $controller = new MoviesController();
+      $controller->storeComments();
+      break;
     
     case 'moviesuggest':
 
