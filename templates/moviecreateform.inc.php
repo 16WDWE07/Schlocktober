@@ -8,7 +8,7 @@
 <div class="row">
 	<div class="col-xs-12">
 		<h1><?= $state;?> Movie</h1>
-			<form class="form-horizontal" method="post" action=<?= $path;?>>
+			<form class="form-horizontal" method="post" action=<?= $path;?> enctype="multipart/form-data">
 				
 				<?php if($state === "Edit"):?>
 					<input type="hidden" name="id" value="<?=$movie->id;?>">
@@ -42,6 +42,13 @@
 	                <span class="text-danger"><?php echo $movie['errors']['description']?></span>
 	                <?php endif; ?>
 	              </div>
+	            </div>
+
+	            <div class="form-group">
+	            	<label for="poster" class="col-sm-2 control-label">Poster Image</label>
+	            	<div class="col-sm-10">
+	            		<input type="file" name="poster" id="poster">
+	            	</div>
 	            </div>
 
 	            

@@ -35,8 +35,13 @@ Class MoviesController
 		$view->render();
 	}
 	public function store(){
-		
+
 		$movie = new MoviesModel($_POST);
+
+		if($_FILES['poster']){
+			$movie->savePoster($_FILES['poster']['tmp_name']);
+		}
+		
 		$movie->save();	
 		header("Location:./?page=featuredmovie&id=". $movie->id);
 
