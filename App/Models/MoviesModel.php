@@ -38,10 +38,24 @@ Class MoviesModel extends DatabaseModel
 		// to store the image file in database, give it to the object
 		$this->poster = $newFilename;
 
-		// creating new folder to store newFilename
+		// creating new folder to store newFilename inorder to display the images
+		$folder = "images/poster/";
+
+		if(! is_dir($folder)){
+			mkdir($folder, 0777, true);
+		}
+
+		$destination = $folder. $newFilename;
+		move_uploaded_file($filename, $destination);
+
+		$img = Image::make($destination);
+		$img->fit(300,300);
+		$img->save($folder . $newFilename);
+
 		
 	}
 }
+
 
 
 

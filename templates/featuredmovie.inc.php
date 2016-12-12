@@ -9,6 +9,15 @@
 
 	  <h1><?= $featuredmovie->title;?></h1>
 	  <small>Released in the year - <?= $featuredmovie->year?></small>
+
+	  <?php if($featuredmovie->poster != ""):?>
+	  	<p>
+	  		<img src="images/poster/<?=$featuredmovie->poster;?>" alt="<?=$featuredmovie->title;?>">
+	  	</p>
+	  <?php else:?>
+	  	<p> No posters found !!! </p>
+	  <?php endif; ?> 
+
 	  <p><?= $featuredmovie->description?></p>	  
 	</div>
 	<div class="col-xs-12">
