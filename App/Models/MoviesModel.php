@@ -52,6 +52,14 @@ Class MoviesModel extends DatabaseModel
 		$img->fit(300,300);
 		$img->save($folder . $newFilename);
 
+		//create thumbnails folder 
+
+		if(! is_dir("images/poster/thumbnails")){
+			mkdir("images/poster/thumbnails", 0777, true);
+		}
+		$img = Image::make($destination);
+		$img->fit(50,50);
+		$img->save($folder ."thumbnails/". $newFilename);
 		
 	}
 }

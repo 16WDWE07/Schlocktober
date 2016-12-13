@@ -38,10 +38,9 @@ Class MoviesController
 
 		$movie = new MoviesModel($_POST);
 
-		if($_FILES['poster']){
+		if($_FILES['poster']['error'] === UPLOAD_ERR_OK){
 			$movie->savePoster($_FILES['poster']['tmp_name']);
 		}
-		
 		$movie->save();	
 		header("Location:./?page=featuredmovie&id=". $movie->id);
 
@@ -65,6 +64,10 @@ Class MoviesController
 	public function update(){
 		
 		$movie = new MoviesModel($_POST);
+
+		if($_FILES['poster']['error']=== UPLOAD_ERR_OK){
+			$movie->savePoster($_FILES['poster']['tmp_name']);
+		} 
 		$movie->update();
 		header("Location:./?page=featuredmovie&id=".$movie->id);
 	}

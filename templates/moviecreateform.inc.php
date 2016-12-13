@@ -46,9 +46,16 @@
 
 	            <div class="form-group">
 	            	<label for="poster" class="col-sm-2 control-label">Poster Image</label>
-	            	<div class="col-sm-10">
-	            		<input type="file" name="poster" id="poster">
-	            	</div>
+	            	<?php if($movie->poster != ""):?>
+		            	<div class="col-sm-10">
+		            		<img src="images/poster/thumbnails/<?=$movie->poster?>" alt="<?= $movie->title; ?> thumbnail img">
+		            		<input type="hidden" name="poster" value="<?=$movie->poster;?>">
+		               	</div>
+		            <?php else: ?>
+		            	<div class="col-sm-10">
+		            		<input type="file" name="poster" id="poster">
+		            	</div>
+		            <?php endif; ?>
 	            </div>
 
 	            
