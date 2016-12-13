@@ -61,7 +61,7 @@
 
   		</form>
   	<?php else: ?>
-  		<p>You need to be <a href="./?page=login">logged in</a> to add comments!</p>
+  		<p>You need to be <a href="./?page=login&amp;id=<?=$featuredmovie->id;?>">logged in</a> to add comments!</p>
   	<?php endif; ?>
   	</section>
   	</div>

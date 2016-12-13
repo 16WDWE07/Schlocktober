@@ -26,8 +26,10 @@ Class AccountController
 		// that is obviously wrong
 
 		// Use the Users model
+		
+		$id = isset($_GET['id']) ? $_GET['id'] : null;
 		$user = new UsersModel();
-		$result = $user->attemptLogin();
+		$result = $user->attemptLogin($id);
 
 		// If bad then generate error messages
 		$errors['login-error'] = 'Invalid credentials';

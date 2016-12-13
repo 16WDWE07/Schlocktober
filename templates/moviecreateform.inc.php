@@ -50,6 +50,9 @@
 		            	<div class="col-sm-10">
 		            		<img src="images/poster/thumbnails/<?=$movie->poster?>" alt="<?= $movie->title; ?> thumbnail img">
 		            		<input type="hidden" name="poster" value="<?=$movie->poster;?>">
+
+		                    <input type="checkbox" name="removeImage" value="true">Remove Image
+		                     
 		               	</div>
 		            <?php else: ?>
 		            	<div class="col-sm-10">

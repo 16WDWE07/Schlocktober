@@ -1,6 +1,10 @@
 <h1>Log in</h1>
 
-<form action="index.php?page=login.try" method="post">
+<?php
+	$action = isset($_GET['id']) ? "index.php?page=login.try&id=".$_GET['id'] : "index.php?page=login.try"
+?>
+
+<form action="<?= $action;?>" method="post">
 	
 	<label for="email">E-Mail: </label>
 	<input type="email" name="email" id="email">

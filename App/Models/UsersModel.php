@@ -76,7 +76,7 @@ Class UsersModel extends DatabaseModel
 
 
 	// Login functionality
-	public function attemptLogin() {
+	public function attemptLogin($id) {
 
 		$db = $this->getDatabaseConnection();
 
@@ -105,7 +105,12 @@ Class UsersModel extends DatabaseModel
 				$_SESSION['privilege'] = $record['privilege'];
 				$_SESSION['user_email'] = $record['email'];
 
-				header('Location: index.php?page=account');
+				if(isset($id)){
+					header('Location: ./?page=featuredmovie&id='.$id);
+				} else {
+					header('Location: index.php?page=account');
+				}
+				
 			} else {
 				// Bad password, return false so user sees error message
 				return false;

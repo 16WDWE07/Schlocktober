@@ -67,7 +67,9 @@ Class MoviesController
 
 		if($_FILES['poster']['error']=== UPLOAD_ERR_OK){
 			$movie->savePoster($_FILES['poster']['tmp_name']);
-		} 
+		} elseif(isset($_POST['removeImage']) && $_POST['removeImage'] === "true"){
+			$movie->poster = null;
+		}
 		$movie->update();
 		header("Location:./?page=featuredmovie&id=".$movie->id);
 	}
