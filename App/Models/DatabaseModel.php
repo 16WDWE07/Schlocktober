@@ -8,6 +8,8 @@ abstract Class DatabaseModel
 {
 	public $data = [];
 
+	public $errors =[];
+
 	private $dbc;
 
 	public function __construct($input = null){
@@ -15,6 +17,7 @@ abstract Class DatabaseModel
 		if(static::$columns){
 			foreach (static::$columns as $column) {
 				$this->$column = null;
+				$this->errors[$column]= null;
 			}
 		}
 
@@ -156,6 +159,47 @@ abstract Class DatabaseModel
 		$statement = $db->prepare($sql);
 		$statement->bindValue(":id", $id);
 		$statement->execute();
+	}
+
+	public function isValid(){
+
+		$valid = true;
+
+		foreach (static::$validationRules as $column => $rules) {
+			$rules = explode(',', $rules);
+			
+			foreach ($rules as $rule) {
+				if(strstr($rule, ':')){
+					$rule = explode(':', $rule);
+					$value = $rule[1];
+					$rule = $rule[0];
+	
+				}
+				switch ($rule) {
+					case 'minlength':
+						if(strlen($this->$column) < $value){
+							$valid = false;
+							$this->errors[$column]="Must be atleast $value characters long.";
+						}
+						break;
+					case 'maxlength':
+						if(strlen($this->$column) > $value){
+							$valid = false;
+							$this->errors[$column]="Must be no more than $value characters.";
+						}
+						break;
+					case 'inputValidate':
+						$characters = htmlentities($this->$column);
+						$pattern = '/[#$%^&*()+=\-\[\]\';\/{}|":<>~\\\\]/';
+						if(preg_match($pattern,$characters)){
+							$valid = false;
+							$this->errors[$column]="Must be a valid comment.";
+						} 
+						break;
+				}
+			}
+		}
+		return $valid;
 	}
 
 	public function __get($name){

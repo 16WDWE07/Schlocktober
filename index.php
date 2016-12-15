@@ -4,9 +4,9 @@
 
   error_reporting(E_ALL);
 
-  session_start();
-
   require "vendor/autoload.php";
+
+  session_start();
 
   require "routes.php";
   

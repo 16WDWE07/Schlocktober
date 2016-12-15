@@ -48,8 +48,8 @@
   			<div class="form-group">
               <label for="comment" class="col-sm-2 control-label">Comment</label>
               <div class="col-sm-10">
-                <textarea class="form-control" id="comment" placeholder="Add Comments" name="comment" rows="5"></textarea>               
-                <span class="text-danger"></span>                
+                <textarea class="form-control" id="comment" placeholder="Add Comments" name="comment" rows="5"><?=$newcomment->comment;?></textarea>               
+                <span class="text-danger"><?= $newcomment->errors['comment'];?></span>                
               </div>
             </div>
   			

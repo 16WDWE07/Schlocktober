@@ -20,12 +20,14 @@ Class MoviesController
 
 	public function showFeaturedMovie(){
 		
-		$featuredmovie = new MoviesModel($_GET['id']);	
+		$featuredmovie = new MoviesModel($_GET['id']);
+
+		$newcomment = $this->getErrorComment();	
 
 		$comments = new CommentsModel();
 		$allComments = $comments->getAllComments($_GET['id']);	
 
-		$view = new FeaturedMovieView(compact('featuredmovie', 'allComments'));
+		$view = new FeaturedMovieView(compact('featuredmovie', 'allComments', 'newcomment'));
 		$view->render();
 	}
 	public function create(){
@@ -50,6 +52,13 @@ Class MoviesController
 		$input['user_id'] = $_SESSION['user_id'];
 
 		$comment = new CommentsModel($input);
+
+		if(! $comment->isValid()){
+			$_SESSION['error.comment'] = $comment;
+			header("Location:./?page=featuredmovie&id=" . $comment->movie_id);
+			exit();
+		}
+
 		$comment->save();
 		header("Location:./?page=featuredmovie&id=".$comment->movie_id);
 	}
@@ -78,6 +87,17 @@ Class MoviesController
 		$movieID = isset($_GET['id']) ? $_GET['id'] : null;
 		MoviesModel::destroy($movieID);
 		header("Location:./?page=movies");
+	}
+
+	public function getErrorComment(){
+
+		if(isset($_SESSION['error.comment'])){
+			$newcomment = $_SESSION['error.comment'];
+			unset($_SESSION['error.comment']);
+		} else {
+			$newcomment = new CommentsModel();
+		}
+		return $newcomment;
 	}
 }
 

@@ -9,6 +9,10 @@ Class CommentsModel extends DatabaseModel
 	protected static $tablename = 'comments';
 	protected static $columns = ['id','comment','user_id','movie_id'];
 
+	protected static $validationRules = [
+				'comment' => 'minlength:10,maxlength:100,inputValidate'
+	];
+
 	public function getAllComments($id){
 
 		// get database connection

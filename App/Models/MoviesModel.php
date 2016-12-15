@@ -49,7 +49,7 @@ Class MoviesModel extends DatabaseModel
 		move_uploaded_file($filename, $destination);
 
 		$img = Image::make($destination);
-		$img->fit(300,300);
+		$img->fit(300,500);
 		$img->save($folder . $newFilename);
 
 		//create thumbnails folder 
