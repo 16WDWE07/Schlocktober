@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use PDO;
+use App\Controllers\Exceptions\PageNotFoundException;
 
 abstract Class DatabaseModel
 {
@@ -85,6 +86,10 @@ abstract Class DatabaseModel
 		$result = $statement->execute();
 
 		$record = $statement->fetch(PDO::FETCH_ASSOC);
+
+		if(! $record){
+			throw new PageNotFoundException;		
+		}
 
 		return $record;
 
@@ -189,12 +194,24 @@ abstract Class DatabaseModel
 						}
 						break;
 					case 'inputValidate':
+						
 						$characters = htmlentities($this->$column);
 						$pattern = '/[#$%^&*()+=\-\[\]\';\/{}|":<>~\\\\]/';
 						if(preg_match($pattern,$characters)){
 							$valid = false;
 							$this->errors[$column]="Must be a valid comment.";
 						} 
+						// Different Approach
+
+						// $this->$column = filter_var($this->$column, FILTER_SANITIZE_ENCODED);
+
+						break;
+
+					case 'numeric':
+						if(! is_numeric($this->$column)){
+							$valid= false;
+							$this->errors[$column] = "Must be a number.";
+						}
 						break;
 				}
 			}

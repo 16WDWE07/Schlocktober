@@ -54,12 +54,18 @@
 
               <?php    endif;   ?>
 
+            </ul> 
 
+            
+            <form method="get" action="./" class="navbar-form navbar-right">
+              <div class="form-group">
+                <input type="hidden" name="page" value="search">
+                <input type="text" name="q" class="form-control" placeholder="Search">
+              </div>
+              <button type="submit" class="btn btn-default">Search</button>
+            </form>    
+            
 
-
-
-
-            </ul>      
           </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
       </nav>

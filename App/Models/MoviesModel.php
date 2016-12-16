@@ -10,6 +10,11 @@ Class MoviesModel extends DatabaseModel
 {
 	protected static $tablename = 'movies';
 	protected static $columns = ['id','title','year','description','poster'];
+	protected static $validationRules = [
+						'title' 		=> 'minlength:4',
+						'year'			=> 'numeric',
+						'description' 	=> 'minlength:10'
+	];
 
 	public function savePoster($filename){
 
@@ -61,6 +66,35 @@ Class MoviesModel extends DatabaseModel
 		$img->fit(50,50);
 		$img->save($folder ."thumbnails/". $newFilename);
 		
+	}
+
+	public function search($searchTerm){
+
+		$db = $this->getDatabaseConnection();
+
+		$query = "SET @searchterm = :searchTerm";
+		$statement = $db->prepare($query);
+		$statement->bindValue(":searchTerm" , $searchTerm);
+		$statement->execute();
+
+
+		$query = "SELECT movies.id, movies.title, movies.description, movies.year 			FROM movies 
+					WHERE 
+						MATCH(movies.title) AGAINST(@searchterm) OR 
+						MATCH(movies.description) AGAINST(@searchterm) 
+						ORDER BY (movies.title) DESC";
+		$statement = $db->prepare($query);
+		$statement->execute();
+
+		$searchresults = [];
+
+		while ($record = $statement->fetch(PDO::FETCH_ASSOC)) {
+			$model = new MoviesModel();
+			$model->data = $record;
+			array_push($searchresults , $model);
+		}
+		return $searchresults;
+
 	}
 }
 

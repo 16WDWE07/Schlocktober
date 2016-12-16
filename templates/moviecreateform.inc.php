@@ -18,9 +18,9 @@
 	              <label for="title" class="col-sm-2 control-label">Movie Title</label>
 	              <div class="col-sm-10">
 	                <input type="text" class="form-control" id="title" placeholder="Troll 2" name="title" value="<?php echo $movie->title;?>">
-	                <?php if(! empty($movie->errors)): ?>
-	                  <span class="text-danger"><?php echo $movie['errors']['title']?></span>
-	                <?php endif;?>
+	                
+	                  <span class="text-danger"><?php echo $movie->errors['title']?></span>
+	                
 	              </div>
 	            </div>
 
@@ -28,9 +28,9 @@
 	              <label for="year" class="col-sm-2 control-label">Released Year</label>
 	              <div class="col-sm-10">
 	                <input type="year" class="form-control" id="year" placeholder="1990" name="year" value="<?php echo $movie->year;?>">
-	                <?php if(! empty($movie->errors)): ?>
-	                <span class="text-danger"><?php echo $movie['errors']['year']?></span>
-	                <?php endif; ?>
+	                
+	                <span class="text-danger"><?php echo $movie->errors['year']?></span>
+	               
 	              </div>
 	            </div>
 
@@ -38,9 +38,9 @@
 	              <label for="description" class="col-sm-2 control-label">Description</label>
 	              <div class="col-sm-10">
 	                <textarea class="form-control" id="description" placeholder="Tell us about the movie" name="description"><?php echo $movie->description;?></textarea>
-	                <?php if(! empty($movie->errors)): ?>
-	                <span class="text-danger"><?php echo $movie['errors']['description']?></span>
-	                <?php endif; ?>
+	               
+	                <span class="text-danger"><?php echo $movie->errors['description']?></span>
+	               
 	              </div>
 	            </div>
 

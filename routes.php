@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Controllers;
+
+use App\Controllers\Exceptions\PageNotFoundException;
   
   // if( isset($_GET['page']) ) {
   //   $page = $_GET['page'];
@@ -12,6 +14,7 @@ namespace App\Controllers;
   // otherwise $page = home
   $page = isset($_GET['page']) ? $_GET['page'] : "home";
 
+try {
 
   switch ($page) {
     
@@ -131,10 +134,21 @@ namespace App\Controllers;
       $controller->processLoginForm();
     break;
 
+    case 'search':
+        $controller = new SearchController();
+        $controller->search();
+    break;
+
     default:
-      echo "Error 404 ! Page not found !";
+      throw new PageNotFoundException();
       break;
   }
+} catch (PageNotFoundException $e){
+
+  $controller = new ExceptionController();
+  $controller->error404();
+
+}
 
 
 

@@ -32,13 +32,20 @@ Class MoviesController
 	}
 	public function create(){
 
-		$movie = new MoviesModel();
+		$movie = $this->getFormData();
+
 		$view = new MovieCreateView(compact('movie'));
 		$view->render();
 	}
 	public function store(){
 
 		$movie = new MoviesModel($_POST);
+
+		if(! $movie->isValid()){
+			$_SESSION['error.movie'] = $movie;
+			header("Location:./?page=movie.create");
+			exit();
+		}
 
 		if($_FILES['poster']['error'] === UPLOAD_ERR_OK){
 			$movie->savePoster($_FILES['poster']['tmp_name']);
@@ -64,7 +71,7 @@ Class MoviesController
 	}
 	public function edit(){
 
-		$movie = new MoviesModel($_GET['id']);
+		$movie = $this->getFormData($_GET['id']);
 
 		$view = new MovieCreateView(compact('movie'));
 		$view->render();
@@ -73,6 +80,12 @@ Class MoviesController
 	public function update(){
 		
 		$movie = new MoviesModel($_POST);
+
+		if(! $movie->isValid()){
+			$_SESSION['error.movie'] = $movie;
+			header("Location:./?page=movie.edit&id=" . $movie->id);
+			exit();
+		}
 
 		if($_FILES['poster']['error']=== UPLOAD_ERR_OK){
 			$movie->savePoster($_FILES['poster']['tmp_name']);
@@ -98,6 +111,18 @@ Class MoviesController
 			$newcomment = new CommentsModel();
 		}
 		return $newcomment;
+	}
+
+	public function getFormData($id = null){
+
+		if(isset($_SESSION['error.movie'])){
+			$movie = $_SESSION['error.movie'];
+			unset($_SESSION['error.movie']);
+		} else {
+			$movie = new MoviesModel($id);
+		}
+		return $movie;
+
 	}
 }
 
