@@ -10,7 +10,7 @@
 				<?php foreach ($results as $movie) :?>
 					<li>
 						<h3>
-							<a href="./?page=movie&amp;id=<?= $movie->id; ?>">
+							<a href="./?page=featuredmovie&amp;id=<?= $movie->id; ?>">
 							<?= $movie->title; ?> (<?=$movie->year; ?>)</a>
 						</h3>
 						<p><?= $movie->description; ?></p>

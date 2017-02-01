@@ -21,4 +21,6 @@
 	<p><?= $this->data['login-error'] ?></p>
 	<?php  endif;  ?>
 
+	<a href="./?page=help">Forgot Password</a>
+
 </form>

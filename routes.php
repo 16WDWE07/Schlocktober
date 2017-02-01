@@ -139,6 +139,21 @@ try {
         $controller->search();
     break;
 
+    case 'help':
+        $controller = new HelpController();
+        $controller->help();
+    break;
+
+    case 'sendLink':
+        $controller = new HelpController();
+        $controller->sendLink();
+    break;
+
+    case 'passwordChangeMessage':
+        $controller = new HelpController();
+        $controller->generateMessage();
+    break;
+
     default:
       throw new PageNotFoundException();
       break;
